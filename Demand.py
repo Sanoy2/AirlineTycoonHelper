@@ -1,4 +1,5 @@
 from Seats import Seats
+import math
 
 class Demand():
     def __init__(self):
@@ -20,10 +21,10 @@ class Demand():
         self.Seats.SetFirstClass(firstClass)
 
     def PaxDistribution(self, howManyCourses):  # 1 course is 2 flights
-        Economical = self.Seats.GetEconomical() / (howManyCourses * 2)
-        Business = self.Seats.GetBusiness() / (howManyCourses * 2)
-        FirstClass = self.Seats.GetFirstClass() / (howManyCourses * 2)
-        Pax = self.Seats.PAX() / (howManyCourses * 2)
+        newSeats = Seats()
+        newSeats.SetEconomical(math.ceil(self.Seats.GetEconomical() / (howManyCourses * 2)))
+        newSeats.SetBusiness(math.ceil(self.Seats.GetBusiness() / (howManyCourses * 2)))
+        newSeats.SetFirstClass(math.ceil(self.Seats.GetFirstClass() / (howManyCourses * 2)))
 
         return """Results for courses: {numberOfCourses}
 Economical: {economical}
@@ -33,8 +34,8 @@ Total PAX : {pax}
 
     """.format(
             numberOfCourses = howManyCourses,
-            economical = round(Economical),
-            business = round(Business),
-            firstClass = round(FirstClass),
-            pax = round(Economical) + round(Business) + round(FirstClass)
+            economical = newSeats.GetEconomical(),
+            business = newSeats.GetBusiness(),
+            firstClass = newSeats.GetFirstClass(),
+            pax = newSeats.PAX()
         )
